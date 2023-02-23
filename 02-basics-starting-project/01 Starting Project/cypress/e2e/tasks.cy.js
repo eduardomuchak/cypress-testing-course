@@ -35,4 +35,23 @@ describe('tasks management', () => {
       .contains('Some description for my new task')
       .should('exist');
   });
+
+  it('should validate user input', () => {
+    cy.visit('http://localhost:5173');
+    // Abrir modal
+    cy.get('button').contains('Add Task').click();
+    cy.get('dialog').should('be.visible');
+
+    // Inserir dados em apenas um campo
+    cy.get('input[id="title"]').type('My new task');
+
+    // Clicar no botão de salvar
+    cy.get('button').contains('Add Task').click();
+
+    // Verifica se o modal não foi fechado e se apareceu a mensagem de erro
+    cy.get('dialog').should('be.visible');
+    cy.get('.error-message')
+      .contains('Please provide values for task title, summary and category!')
+      .should('exist');
+  });
 });
