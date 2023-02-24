@@ -105,14 +105,14 @@ describe('tasks management', () => {
 
     // Filtrar por tarefas urgentes
     cy.get('select[id="filter"]').select('urgent');
-
-    // Verifica se apenas uma tarefa foi exibida
     cy.get('li').should('have.length', 1);
 
     // Filtrar por tarefas de baixa prioridade
     cy.get('select[id="filter"]').select('low');
-
-    // Verifica se apenas uma tarefa foi exibida
     cy.get('li').should('have.length', 1);
+
+    // Filtrar por todas as tarefas
+    cy.get('select[id="filter"]').select('all');
+    cy.get('li').should('have.length', 2);
   });
 });
