@@ -115,4 +115,80 @@ describe('tasks management', () => {
     cy.get('select[id="filter"]').select('all');
     cy.get('li').should('have.length', 2);
   });
+
+  it('should add a multiple tasks', () => {
+    cy.visit('http://localhost:5173');
+
+    // Criar três tarefas
+    // Abrir modal
+    cy.get('button').contains('Add Task').click();
+    cy.get('dialog').should('be.visible');
+
+    // Inserir dados
+    cy.get('input[id="title"]').type('My new task 1');
+    cy.get('textarea[id="summary"]').type('Some description for my new task 1');
+
+    // Selecionar opção do select
+    cy.get('select[id="category"]').select('low');
+
+    // Clicar no botão de salvar
+    cy.get('button').contains('Add Task').click();
+
+    // Verifica se o modal foi fechado e se a nova tarefa foi criada
+    cy.get('dialog').should('not.exist');
+    cy.get('li div h2').contains('My new task 1').should('exist');
+    cy.get('li div p')
+      .contains('Some description for my new task 1')
+      .should('exist');
+
+    // Abrir modal
+    cy.get('button').contains('Add Task').click();
+    cy.get('dialog').should('be.visible');
+
+    // Inserir dados
+    cy.get('input[id="title"]').type('My new task 2');
+    cy.get('textarea[id="summary"]').type('Some description for my new task 2');
+
+    // Selecionar opção do select
+    cy.get('select[id="category"]').select('urgent');
+
+    // Clicar no botão de salvar
+    cy.get('button').contains('Add Task').click();
+
+    // Verifica se o modal foi fechado e se a nova tarefa foi criada
+    cy.get('dialog').should('not.exist');
+    cy.get('li div h2').contains('My new task 2').should('exist');
+    cy.get('li div p')
+      .contains('Some description for my new task 2')
+      .should('exist');
+
+    // Abrir modal
+    cy.get('button').contains('Add Task').click();
+    cy.get('dialog').should('be.visible');
+
+    // Inserir dados
+    cy.get('input[id="title"]').type('My new task 3');
+    cy.get('textarea[id="summary"]').type('Some description for my new task 3');
+
+    // Selecionar opção do select
+    cy.get('select[id="category"]').select('moderate');
+
+    // Clicar no botão de salvar
+    cy.get('button').contains('Add Task').click();
+
+    // Verifica se o modal foi fechado e se a nova tarefa foi criada
+    cy.get('dialog').should('not.exist');
+    cy.get('li div h2').contains('My new task 3').should('exist');
+    cy.get('li div p')
+      .contains('Some description for my new task 3')
+      .should('exist');
+
+    // Verifica se as três tarefas foram criadas
+    cy.get('li').should('have.length', 3);
+
+    // Verifica se as três tarefas foram criadas na ordem correta
+    cy.get('.task').eq(0).contains('My new task 1');
+    cy.get('.task').eq(1).contains('My new task 2');
+    cy.get('.task').eq(2).contains('My new task 3');
+  });
 });
